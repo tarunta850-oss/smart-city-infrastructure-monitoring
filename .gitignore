@@ -1,0 +1,48 @@
+
+# Environment Variables
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+
+# Node / Frontend
+node_modules/
+dist/
+.vite/
+package-lock.json
+
+# Local Docker config
+.docker/
+
+# Virtual environments
+.venv/
+.venv-ml/
+venv/
+
+# ML artifacts — weights and data are large/generated
+ml/data/
+ml/runs/
+backend/models/
+*.pt
+*.onnx
+
+# Claude Code internal files
+.claude/
+
+# Agent memory files
+.agent/
+
+# Git bundles and misc dev artifacts
+*.bundle
+*.exe
+cloudflared*
+verify_*.py
+test_*.py
+handfull.md
+SYSTEM_PORTS.md
