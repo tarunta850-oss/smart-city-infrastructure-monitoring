@@ -75,10 +75,10 @@ npm run dev
 ## 🔑 Default User Accounts & Credentials
 
 | Role | Email | Password | Access / Function |
-| :--- | :--- | :--- | :--- |
-| **Super Admin** | `superadmin@example.com` | `admin123` | System configuration, user & officer management |
-| **Field Officer** | `taruna.24.becs@acharya.ac.in` | `password123` | Road inspection, severity triage, report resolution |
-| **Citizen (Public)** | `tarunta850@gmail.com` | `password123` | Road issue reporting, photo upload, issue tracking |
+|---|---|---|---|
+| **Super Admin** | `admin@example.com` | `Admin@123` | System configuration, user & officer management |
+| **Field Officer** | `officer@example.com` | `Officer@123` | Road inspection, severity triage, report resolution |
+| **Citizen (Public)** | `citizen@example.com` | `Citizen@123` | Road issue reporting, photo upload, issue tracking |
 
 ---
 
