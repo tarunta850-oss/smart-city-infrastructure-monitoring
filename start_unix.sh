@@ -34,7 +34,14 @@ cd "$SCRIPT_DIR/frontend/cityreport"
 npm run dev &
 FRONTEND_PID=$!
 
-echo "[3/3] System starting up!"
+echo "[3/3] Opening browser at http://localhost:3005 ..."
+sleep 3
+if command -v xdg-open &> /dev/null; then
+    xdg-open http://localhost:3005 &
+elif command -v open &> /dev/null; then
+    open http://localhost:3005 &
+fi
+
 echo ""
 echo "--------------------------------------------------------"
 echo "Application URLs:"
@@ -42,9 +49,9 @@ echo "  - Frontend: http://localhost:3005"
 echo "  - Backend Docs: http://localhost:8005/docs"
 echo ""
 echo "Login Credentials:"
-echo "  - Superadmin: superadmin@example.com (pass: admin123)"
-echo "  - Officer: taruna.24.becs@acharya.ac.in (pass: password123)"
-echo "  - Citizen: tarunta850@gmail.com (pass: password123)"
+echo "  - Superadmin: tarunta850@gmail.com (pass: password123)"
+echo "  - Officer: priya.officer@city.gov (pass: password123)"
+echo "  - Citizen: citizen@example.com (pass: citizen123)"
 echo "--------------------------------------------------------"
 echo ""
 echo "Press CTRL+C to stop all services..."

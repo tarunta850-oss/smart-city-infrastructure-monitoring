@@ -1,17 +1,32 @@
 @echo off
-TITLE Smart City System - Docker Launcher
+TITLE Smart City Infrastructure - Docker Launcher
 cd /d "%~dp0"
 
-echo Starting Smart City Infrastructure and Management System in Docker Desktop...
+echo ========================================================
+echo   Starting Smart City Infrastructure in Docker Desktop...
+echo ========================================================
+echo.
+
 docker compose up --detach
 if errorlevel 1 (
     echo.
-    echo Docker could not start the project. Make sure Docker Desktop is running.
+    echo [ERROR] Docker could not start the containers. Make sure Docker Desktop is running.
     pause
     exit /b 1
 )
 
 echo.
-echo Smart City Infrastructure is running at http://localhost:3005
+echo [*] Waiting for services to initialize...
+timeout /t 4 /nobreak >nul
+
+echo [*] Opening http://localhost:3005 in your default browser...
 start "" http://localhost:3005
+
+echo.
+echo ========================================================
+echo   Smart City Infrastructure is running at:
+echo   - Web App:       http://localhost:3005
+echo   - Swagger Docs:  http://localhost:8005/docs
+echo ========================================================
+echo.
 pause
