@@ -71,11 +71,15 @@ const MyReports = () => {
             <main className="container py-lg">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-lg gap-md">
                     <div>
-                        <h1 className="text-2xl mb-xs">My Reports</h1>
-                        <p className="text-muted">All issues you have submitted to the city.</p>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', borderRadius: '999px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444' }}></span>
+                            Citizen Submission Archive
+                        </div>
+                        <h1 className="text-2xl mb-xs" style={{ fontWeight: 800 }}>My Road & Pothole Reports</h1>
+                        <p className="text-muted">Track the AI severity triage, department allocation, and asphalt repair timeline for your reported road defects.</p>
                     </div>
                     <Button variant="primary" size="lg" icon={Plus} onClick={() => navigate('/citizen/report/new')}>
-                        Report an Issue
+                        Report Road Defect
                     </Button>
                 </div>
 

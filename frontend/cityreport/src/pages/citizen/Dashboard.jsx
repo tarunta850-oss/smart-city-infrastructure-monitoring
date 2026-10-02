@@ -9,9 +9,7 @@ import {
     Activity,
     Layers,
     Droplets,
-    Lightbulb,
     Zap,
-    Trees,
     Sparkles,
     Shield,
     Radio
@@ -26,14 +24,12 @@ import './Dashboard.css';
 
 const SEVERITY_ORDER = { critical: 4, high: 3, medium: 2, low: 1 };
 
-const FACILITY_OPTIONS = [
-    { id: '', label: '🌐 All Facilities', icon: Layers },
-    { id: 'road_issues', label: '🛣️ Roads & Pavements', icon: Layers },
-    { id: 'bridges', label: '🌉 Bridges & Flyovers', icon: Activity },
-    { id: 'water', label: '💧 Water & Drainage', icon: Droplets },
-    { id: 'streetlights', label: '💡 Smart Lighting', icon: Lightbulb },
-    { id: 'power', label: '⚡ Energy Grid', icon: Zap },
-    { id: 'parks', label: '🌳 Green Spaces', icon: Trees },
+const ROAD_DEFECT_OPTIONS = [
+    { id: '', label: '🌐 All Road Defects' },
+    { id: 'road_issues', label: '🕳️ Potholes & Cavities' },
+    { id: 'cracks', label: '⚡ Asphalt Cracks' },
+    { id: 'waterlogged', label: '🌊 Waterlogged Potholes' },
+    { id: 'surface', label: '🚧 Surface Rutting' },
 ];
 
 const StatCard = ({ icon: Icon, label, value, color, onClick, active }) => (
@@ -63,7 +59,7 @@ const CitizenDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedFacility, setSelectedFacility] = useState('');
+    const [selectedDefectType, setSelectedDefectType] = useState('');
     const [filters, setFilters] = useState({ status: '' });
     const [sortBy, setSortBy] = useState('newest');
 
@@ -113,10 +109,10 @@ const CitizenDashboard = () => {
                 r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (r.description || '').toLowerCase().includes(searchTerm.toLowerCase());
             const matchStatus = filters.status ? r.status === filters.status : true;
-            const matchFacility = selectedFacility
-                ? (r.category === selectedFacility || (selectedFacility === 'road_issues' && (!r.category || r.category === 'road_issues')))
+            const matchDefect = selectedDefectType
+                ? (r.category === selectedDefectType || (selectedDefectType === 'road_issues' && (!r.category || r.category === 'road_issues')))
                 : true;
-            return matchSearch && matchStatus && matchFacility;
+            return matchSearch && matchStatus && matchDefect;
         });
         return [...f].sort((a, b) => {
             if (sortBy === 'upvotes')  return (b.upvotes ?? 0) - (a.upvotes ?? 0);
@@ -125,22 +121,22 @@ const CitizenDashboard = () => {
             if (sortBy === 'severity') return (SEVERITY_ORDER[b.ai_severity_level] ?? 0) - (SEVERITY_ORDER[a.ai_severity_level] ?? 0);
             return 0;
         });
-    }, [reports, searchTerm, filters, selectedFacility, sortBy]);
+    }, [reports, searchTerm, filters, selectedDefectType, sortBy]);
 
     return (
         <div className="min-h-screen bg-background citizen-dashboard-page">
             <Navbar />
 
             <main className="container py-lg">
-                {/* Live City Health Banner */}
+                {/* Live City Road Health Banner */}
                 <div className="city-health-banner mb-lg">
                     <div className="health-left">
                         <div className="pulse-indicator">
                             <span className="pulse-dot"></span>
                         </div>
                         <div>
-                            <span className="health-title">MUNICIPAL INFRASTRUCTURE TELEMETRY</span>
-                            <p className="health-desc">City Infrastructure Health Index: <strong>94.8% Operational</strong> | AI Prioritization Active</p>
+                            <span className="health-title">MUNICIPAL ROAD NETWORK TELEMETRY</span>
+                            <p className="health-desc">City Roadway Condition Index: <strong>94.8% Operational</strong> | AI Pothole Vision Engine Active</p>
                         </div>
                     </div>
                     <div className="health-right">
@@ -154,13 +150,13 @@ const CitizenDashboard = () => {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
                     <div>
-                        <h1 className="text-2xl mb-xs font-bold">Smart City Infrastructure Hub</h1>
+                        <h1 className="text-2xl mb-xs font-bold">Community Pothole &amp; Road Defect Feed</h1>
                         <p className="text-muted text-sm">
-                            Real-Time Multi-Facility Issue Reporting, AI Severity Triage &amp; Repair Tracking
+                            Smart City Infrastructure Monitoring &amp; Live AI Pothole Repair Tracking
                         </p>
                     </div>
                     <Button variant="primary" size="lg" icon={Plus} onClick={() => navigate('/citizen/report/new')}>
-                        Report Infrastructure Defect
+                        Report Road Pothole
                     </Button>
                 </div>
 
@@ -180,15 +176,15 @@ const CitizenDashboard = () => {
                         onClick={() => setFilters(prev => ({ ...prev, status: prev.status === 'resolved' ? '' : 'resolved' }))} />
                 </div>
 
-                {/* Facility Category Filter Bar */}
+                {/* Defect Category Filter Bar */}
                 <div className="facility-filter-strip mb-md">
-                    <span className="facility-filter-label">Facility Category:</span>
+                    <span className="facility-filter-label">Defect Type:</span>
                     <div className="facility-chips-row">
-                        {FACILITY_OPTIONS.map(opt => (
+                        {ROAD_DEFECT_OPTIONS.map(opt => (
                             <button
                                 key={opt.id}
-                                className={`facility-chip-btn ${selectedFacility === opt.id ? 'active' : ''}`}
-                                onClick={() => setSelectedFacility(opt.id)}
+                                className={`facility-chip-btn ${selectedDefectType === opt.id ? 'active' : ''}`}
+                                onClick={() => setSelectedDefectType(opt.id)}
                             >
                                 <span>{opt.label}</span>
                             </button>
@@ -210,7 +206,7 @@ const CitizenDashboard = () => {
                 )}
 
                 {loading ? (
-                    <p className="text-center text-muted py-lg">Loading smart city infrastructure reports...</p>
+                    <p className="text-center text-muted py-lg">Loading road defect reports...</p>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
                         {filtered.length > 0 ? (
@@ -234,8 +230,8 @@ const CitizenDashboard = () => {
                                     <path d="M50 22l4 4 8-8" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 <div>
-                                    <p style={{ fontWeight: 500 }}>No infrastructure reports match your selected criteria.</p>
-                                    <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>Try changing the facility category or clearing filters.</p>
+                                    <p style={{ fontWeight: 500 }}>No road defect reports match your search criteria.</p>
+                                    <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>Try changing the defect type filter or clearing the search.</p>
                                 </div>
                             </div>
                         )}

@@ -166,16 +166,22 @@ const MapView = () => {
             <main className="map-view-container">
                 {/* ── Sidebar ── */}
                 <div className="map-sidebar">
-                    <h2 className="text-xl mb-md">
-                        Reports {!loading && <span className="reports-count">{filteredReports.length}</span>}
-                    </h2>
+                    <div style={{ marginBottom: '12px' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 8px', borderRadius: '999px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }}></span>
+                            GIS Pothole Radar
+                        </div>
+                        <h2 className="text-xl" style={{ marginTop: '6px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                            Pothole Incidents {!loading && <span className="reports-count">{filteredReports.length}</span>}
+                        </h2>
+                    </div>
 
                     {/* Status filters */}
                     <div className="map-filter-row">
                         {Object.entries({
                             pending: 'Pending',
-                            in_progress: 'In Progress',
-                            resolved: 'Resolved',
+                            in_progress: 'In Repair',
+                            resolved: 'Repaired',
                             reopened: 'Reopened',
                             rejected: 'Rejected',
                             closed: 'Closed',
@@ -196,15 +202,15 @@ const MapView = () => {
                     <input
                         className="sidebar-search"
                         type="text"
-                        placeholder="Search reports…"
+                        placeholder="Search pothole or street location…"
                         value={sidebarSearch}
                         onChange={e => setSidebarSearch(e.target.value)}
                     />
 
                     <div className="reports-list">
-                        {loading && <p className="text-muted text-sm">Loading reports…</p>}
+                        {loading && <p className="text-muted text-sm">Loading GIS pothole telemetry…</p>}
                         {!loading && filteredReports.length === 0 && (
-                            <p className="text-muted text-sm">No reports match the current filter.</p>
+                            <p className="text-muted text-sm">No pothole reports match the current filter.</p>
                         )}
                         {filteredReports.map((r) => (
                             <div

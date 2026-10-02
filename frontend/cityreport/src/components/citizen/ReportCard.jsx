@@ -1,4 +1,4 @@
-import { MapPin, ThumbsUp, Trash2, Zap, Droplets, Lightbulb, Layers, Activity } from 'lucide-react';
+import { MapPin, ThumbsUp, Trash2, Zap, Droplets, Activity } from 'lucide-react';
 import Card from '../shared/Card';
 import Badge from '../shared/Badge';
 import Button from '../shared/Button';
@@ -6,14 +6,14 @@ import './ReportCard.css';
 import { getImageUrl } from '../../utils/image';
 import { useAuth } from '../../contexts/AuthContext';
 
-const FACILITY_MAP = {
-    road_issues: { label: '🛣️ Roads & Pavement', variant: 'neutral' },
-    roads: { label: '🛣️ Roads & Pavement', variant: 'neutral' },
-    bridges: { label: '🌉 Bridge Structure', variant: 'info' },
-    water: { label: '💧 Water Network', variant: 'info' },
-    streetlights: { label: '💡 Smart Lighting', variant: 'warning' },
-    power: { label: '⚡ Grid & Power', variant: 'warning' },
-    parks: { label: '🌳 Green Space', variant: 'success' },
+const DEFECT_MAP = {
+    road_issues: { label: '🕳️ Pothole Cavity' },
+    roads: { label: '🕳️ Pothole Cavity' },
+    pothole: { label: '🕳️ Pothole Cavity' },
+    cracks: { label: '⚡ Asphalt Fracture' },
+    waterlogged: { label: '🌊 Waterlogged Road' },
+    surface: { label: '🚧 Surface Rutting' },
+    sinkhole: { label: '🛑 Road Collapse' },
 };
 
 const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
@@ -35,7 +35,7 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
 
     const upvoted = localStorage.getItem(`upvoted_${user?.id}_${id}`) === '1';
 
-    const facInfo = FACILITY_MAP[category] || { label: '🏛️ Civic Asset', variant: 'neutral' };
+    const defectInfo = DEFECT_MAP[category] || { label: '🕳️ Road Defect' };
 
     const STATUS_LABELS = {
         pending: 'Pending',
@@ -79,7 +79,7 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
                     }}
                 />
                 <div className="report-image-badges">
-                    <span className="facility-floating-pill">{facInfo.label}</span>
+                    <span className="facility-floating-pill">{defectInfo.label}</span>
                     {ai_severity_score && (
                         <span className={`severity-floating-pill ${getSeverityBadgeClass(ai_severity_score)}`}>
                             AI {ai_severity_score.toFixed(0)}/100

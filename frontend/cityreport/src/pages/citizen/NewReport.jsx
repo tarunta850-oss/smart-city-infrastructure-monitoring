@@ -9,12 +9,11 @@ import {
   Layers,
   Activity,
   Droplets,
-  Lightbulb,
-  Zap,
   Mic,
   MicOff,
   Radio,
-  CheckCircle2
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 import Navbar from '../../components/shared/Navbar';
 import Button from '../../components/shared/Button';
@@ -24,13 +23,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import LocationPicker from '../../components/shared/LocationPicker';
 import './NewReport.css';
 
-const FACILITY_OPTIONS = [
-  { id: 'road_issues', label: '🛣️ Roads & Pavements', desc: 'Potholes, cracks, asphalt collapse, rutting' },
-  { id: 'bridges', label: '🌉 Bridges & Flyovers', desc: 'Expansion joint damage, deck crack, guardrails' },
-  { id: 'water', label: '💧 Water Network & Drainage', desc: 'Pipe burst, storm drain block, low pressure' },
-  { id: 'streetlights', label: '💡 Smart Lighting Grid', desc: 'Luminaire outage, solar sensor, timing defect' },
-  { id: 'power', label: '⚡ Electric Grid & Power', desc: 'Substation alert, frayed line, pole hazard' },
-  { id: 'parks', label: '🌳 Green Spaces & Parks', desc: 'Fallen trees, barrier damage, irrigation leak' },
+const ROAD_DEFECT_TYPES = [
+  { id: 'road_issues', label: '🕳️ Pothole / Deep Cavity', desc: 'Asphalt cavity, surface gouge, hazardous depth hole' },
+  { id: 'cracks', label: '⚡ Asphalt Cracking & Fissures', desc: 'Alligator fractures, longitudinal & transverse road breaks' },
+  { id: 'waterlogged', label: '🌊 Waterlogged Pothole Hazard', desc: 'Submerged road depression, hydroplaning & skid risk' },
+  { id: 'surface', label: '🚧 Surface Rutting & Edge Break', desc: 'Wheel rutting, shoulder erosion, gravel disintegration' },
+  { id: 'sinkhole', label: '🛑 Severe Collapse / Sinkhole', desc: 'Sub-base structural subsidence, culvert & road cave-in' },
 ];
 
 const NewReport = () => {
@@ -75,8 +73,8 @@ const NewReport = () => {
     }));
   };
 
-  const handleFacilitySelect = (catId) => {
-    setFormData(prev => ({ ...prev, category: catId }));
+  const handleDefectSelect = (defId) => {
+    setFormData(prev => ({ ...prev, category: defId }));
   };
 
   const handleImageUpload = (e) => {
@@ -99,7 +97,7 @@ const NewReport = () => {
       if (!formData.description) {
         setFormData(prev => ({
           ...prev,
-          description: prev.description + ' [Voice Memo Attached: Citizen recorded 12s voice note describing hazardous depth and heavy vehicle traffic.]'
+          description: prev.description + ' [Voice Note: Citizen noted heavy commuter vehicular traffic and severe impact on two-wheelers.]'
         }));
       }
     } else {
@@ -114,12 +112,12 @@ const NewReport = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setLoadingStage('Uploading asset photos…');
+    setLoadingStage('Uploading road defect imagery…');
     setError(null);
 
     try {
       if (!formData.latitude || !formData.longitude) {
-        throw new Error("Please pinpoint the GPS location of the defect");
+        throw new Error("Please pinpoint the GPS location of the road defect");
       }
 
       let imageUrl = null;
@@ -136,7 +134,7 @@ const NewReport = () => {
         }
       }
 
-      setLoadingStage('Running Multi-Modal AI Computer Vision & AHP Triage…');
+      setLoadingStage('Running OpenCV Pothole Segmentation & AHP Severity Scoring…');
 
       const reportData = {
         title: formData.title,
@@ -179,7 +177,7 @@ const NewReport = () => {
         },
         (error) => {
           console.error("Error getting location:", error);
-          alert("Could not fetch GPS location. Please ensure location permissions are enabled.");
+          alert("Could not fetch GPS location. Please ensure location permissions are enabled in browser.");
         },
         { enableHighAccuracy: true }
       );
@@ -200,8 +198,8 @@ const NewReport = () => {
             Back to Dashboard
           </Button>
           <div className="title-with-pill">
-            <h1 className="text-2xl font-bold">Report Smart City Infrastructure Defect</h1>
-            <span className="glow-pill primary">AI Multi-Factor Scoring Active</span>
+            <h1 className="text-2xl font-bold">Report Road Pothole / Defect</h1>
+            <span className="glow-pill primary">AI Pothole Vision Engine</span>
           </div>
         </div>
 
@@ -225,20 +223,20 @@ const NewReport = () => {
         <div className="report-form-container">
           <Card>
             <form onSubmit={handleSubmit} className="report-form">
-              {/* Facility Category Selection */}
+              {/* Road Defect Category Selection */}
               <div className="form-group">
                 <label className="form-label">
-                  Infrastructure Asset Vertical *
+                  Road Defect Classification *
                 </label>
                 <div className="facility-select-grid">
-                  {FACILITY_OPTIONS.map((fac) => (
+                  {ROAD_DEFECT_TYPES.map((def) => (
                     <div
-                      key={fac.id}
-                      className={`facility-option-card ${formData.category === fac.id ? 'active' : ''}`}
-                      onClick={() => handleFacilitySelect(fac.id)}
+                      key={def.id}
+                      className={`facility-option-card ${formData.category === def.id ? 'active' : ''}`}
+                      onClick={() => handleDefectSelect(def.id)}
                     >
-                      <span className="fac-opt-title">{fac.label}</span>
-                      <span className="fac-opt-desc">{fac.desc}</span>
+                      <span className="fac-opt-title">{def.label}</span>
+                      <span className="fac-opt-desc">{def.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -246,14 +244,14 @@ const NewReport = () => {
 
               <div className="form-group">
                 <label htmlFor="title" className="form-label">
-                  Issue Title / Defect Summary *
+                  Issue Summary / Title *
                 </label>
                 <input
                   id="title"
                   name="title"
                   type="text"
                   className="form-input"
-                  placeholder="e.g. Deep asphalt pothole near pedestrian crossing"
+                  placeholder="e.g. Hazardous deep pothole on fast commuter lane"
                   value={formData.title}
                   onChange={handleChange}
                   required
@@ -262,7 +260,7 @@ const NewReport = () => {
 
               <div className="form-group">
                 <label htmlFor="location" className="form-label mb-2 block">
-                  GIS Pinpoint Location *
+                  Roadway GPS Location *
                 </label>
 
                 {/* Visual Map Picker */}
@@ -289,7 +287,7 @@ const NewReport = () => {
                       name="location"
                       type="text"
                       className="form-input pl-8 w-full font-mono text-sm"
-                      placeholder="Coordinates will be automatically geocoded"
+                      placeholder="GPS coordinates will automatically geocode"
                       value={formData.location}
                       readOnly
                     />
@@ -308,7 +306,7 @@ const NewReport = () => {
               <div className="form-group">
                 <div className="flex justify-between items-center mb-xs">
                   <label htmlFor="description" className="form-label mb-0">
-                    Defect Description &amp; Hazard Details *
+                    Pothole Details &amp; Road Traffic Impact *
                   </label>
                   <button
                     type="button"
@@ -316,14 +314,14 @@ const NewReport = () => {
                     onClick={toggleVoiceRecording}
                   >
                     {isRecording ? <MicOff size={14} /> : <Mic size={14} />}
-                    <span>{isRecording ? 'Listening (Speaking...)' : (voiceRecorded ? 'Voice Attached' : 'Add Voice Memo')}</span>
+                    <span>{isRecording ? 'Listening...' : (voiceRecorded ? 'Voice Note Attached' : 'Add Voice Note')}</span>
                   </button>
                 </div>
                 <textarea
                   id="description"
                   name="description"
                   className="form-textarea"
-                  placeholder="Describe the severity, traffic impact, approximate depth, or water accumulation..."
+                  placeholder="Describe pothole depth, water accumulation, traffic speed, or two-wheeler hazard..."
                   rows="4"
                   value={formData.description}
                   onChange={handleChange}
@@ -332,7 +330,7 @@ const NewReport = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Evidence Photos (AI Computer Vision Scan)</label>
+                <label className="form-label">Evidence Photos (For AI OpenCV Surface Analysis)</label>
                 <div className="image-upload-container">
                   <input
                     type="file"
@@ -344,7 +342,7 @@ const NewReport = () => {
                   />
                   <label htmlFor="image-upload" className="image-upload-btn">
                     <Camera size={24} />
-                    <span>{images.length > 0 ? `${images.length} photo${images.length > 1 ? 's' : ''} ready for AI Scan` : 'Upload Photos for AI Analysis'}</span>
+                    <span>{images.length > 0 ? `${images.length} photo${images.length > 1 ? 's' : ''} ready for AI Pothole Scan` : 'Upload Road Defect Photo'}</span>
                   </label>
                 </div>
 
@@ -372,7 +370,7 @@ const NewReport = () => {
                   <span className="submit-spinner" />
                   <div className="flex flex-col">
                     <span className="font-bold">{loadingStage}</span>
-                    <span className="text-xs text-muted">Calculating AHP weights and routing to nearest dispatch crew...</span>
+                    <span className="text-xs text-muted">Calculating AHP priority weights &amp; dispatching to nearest road quick-repair crew...</span>
                   </div>
                 </div>
               )}
@@ -387,7 +385,7 @@ const NewReport = () => {
                   Cancel
                 </Button>
                 <Button type="submit" variant="primary" size="lg" disabled={loading} icon={Sparkles}>
-                  {loading ? 'Processing Triage…' : 'Submit & Execute AI Triage'}
+                  {loading ? 'Processing Pothole Triage…' : 'Submit & Trigger AI Pothole Triage'}
                 </Button>
               </div>
             </form>

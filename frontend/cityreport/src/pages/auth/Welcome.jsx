@@ -16,79 +16,75 @@ import {
     Users,
     AlertTriangle,
     Eye,
-    Award,
     Sparkles,
-    Droplets,
-    Lightbulb,
     Radio,
     Sliders,
     Layers,
     Clock,
-    FileText
+    FileText,
+    Camera
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import Button from '../../components/shared/Button';
-import FacultyShowcaseModal from '../../components/FacultyShowcaseModal';
 import './Welcome.css';
 
-const FACILITY_PREVIEWS = {
-    roads: {
-        title: 'Road & Pavement Defect Scan',
-        badge: 'PRIORITY 1 - CRITICAL HAZARD',
+const POTHOLE_DEFECT_TYPES = {
+    pothole: {
+        title: 'Deep Asphalt Pothole Cavity Scan',
+        badge: 'PRIORITY 1 - CRITICAL ROAD HAZARD',
         image: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80',
-        boxLabel: 'POTHOLE SPREAD: 0.74m²',
+        boxLabel: 'POTHOLE SPREAD: 0.74m² | DEPTH: 8.2cm',
         severity: '88.5 / 100',
         severityTag: 'Critical',
         proximity: '85m to Hospital Corridor',
-        dept: 'Roads & Infrastructure (Alpha Team)',
-        sentiment: 'Urgent (+15 AHP Weight)',
-        sla: '< 4.0 Hours SLA'
+        dept: 'Roads & Infrastructure (Alpha Quick-Repair Team)',
+        sentiment: 'High Traffic Velocity (+15 AHP Weight)',
+        sla: '< 4.0 Hours Target SLA'
     },
-    bridges: {
-        title: 'Flyover Structural Joint Scan',
-        badge: 'PRIORITY 2 - HIGH VULNERABILITY',
+    cracks: {
+        title: 'Asphalt Alligator Fracture & Transverse Crack',
+        badge: 'PRIORITY 2 - HIGH STRUCTURAL DECAY',
         image: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=800&q=80',
-        boxLabel: 'EXPANSION GAP: +18mm DEVIATION',
-        severity: '74.2 / 100',
+        boxLabel: 'FRACTURE LINE: 14.6m SPREAD',
+        severity: '76.0 / 100',
         severityTag: 'High',
-        proximity: 'Major River Crossing Artery',
-        dept: 'Bridges & Civil Structures Division',
-        sentiment: 'Vibration Alert (+12 AHP Weight)',
-        sla: '< 12.0 Hours SLA'
+        proximity: 'Main Arterial Commuter Highway',
+        dept: 'Municipal Asphalt Resurfacing Division',
+        sentiment: 'Sub-base Water Penetration Risk (+12 Weight)',
+        sla: '< 12.0 Hours Target SLA'
     },
-    water: {
-        title: 'Distribution Main Pressure Burst',
-        badge: 'PRIORITY 1 - CRITICAL LEAKAGE',
+    waterlogging: {
+        title: 'Submerged Pothole & Road Waterlogging',
+        badge: 'PRIORITY 1 - CRITICAL HYDROLOGICAL HAZARD',
         image: 'https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=800&q=80',
-        boxLabel: 'PRESSURE DROP: 28 PSI (LOW)',
-        severity: '82.0 / 100',
+        boxLabel: 'WATERLOGGED CAVITY: REFLECTIVE DEPTH 11cm',
+        severity: '82.3 / 100',
         severityTag: 'Critical',
-        proximity: '120m to Residential District',
-        dept: 'Water Supply & Sewerage Board',
-        sentiment: 'Contamination Risk (+18 Weight)',
-        sla: '< 3.0 Hours SLA'
+        proximity: '120m to School Crosswalk Zone',
+        dept: 'Drainage & Roadway Safety Squad',
+        sentiment: 'Hydroplaning & Skid Risk (+18 Weight)',
+        sla: '< 3.0 Hours Target SLA'
     },
-    lighting: {
-        title: 'Smart Streetlight Grid Outage',
-        badge: 'PRIORITY 3 - MEDIUM SEVERITY',
+    surface: {
+        title: 'Asphalt Rutting & Shoulder Edge Breakdown',
+        badge: 'PRIORITY 3 - MEDIUM WEAR',
         image: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80',
-        boxLabel: 'CLUSTER OUTAGE: 6 LUMINAIRES',
-        severity: '54.5 / 100',
+        boxLabel: 'SHOULDER DROP-OFF: 6.5cm WEAR',
+        severity: '64.2 / 100',
         severityTag: 'Medium',
-        proximity: 'School Pedestrian Crosswalk',
-        dept: 'Smart Electrical & Lighting Grid',
-        sentiment: 'Public Safety Alert (+8 Weight)',
-        sla: '< 24.0 Hours SLA'
+        proximity: 'Commercial Bus Route Corridor',
+        dept: 'Pavement Maintenance Sector 3',
+        sentiment: 'Heavy Commercial Vehicle Route (+8 Weight)',
+        sla: '< 24.0 Hours Target SLA'
     }
 };
 
 const Welcome = () => {
     const { theme, toggleTheme, isDark } = useTheme();
     const navigate = useNavigate();
-    const [activeFacility, setActiveFacility] = useState('roads');
-    const [showFacultyModal, setShowFacultyModal] = useState(false);
+    const [activeDefect, setActiveDefect] = useState('pothole');
 
-    const currentViz = FACILITY_PREVIEWS[activeFacility];
+    const currentViz = POTHOLE_DEFECT_TYPES[activeDefect];
 
     return (
         <div className="welcome-page">
@@ -105,22 +101,12 @@ const Welcome = () => {
                         </div>
                     </Link>
 
-                    <div className="telemetry-pill hidden lg:flex">
+                    <div className="telemetry-pill hidden md:flex">
                         <span className="pulse-dot"></span>
-                        <span>AI DEFECT ENGINE &amp; IOT TELEMETRY ACTIVE</span>
+                        <span>AI POTHOLE DETECTION &amp; GIS DISPATCH ACTIVE</span>
                     </div>
 
                     <div className="nav-actions">
-                        {/* Faculty Viva Showcase Trigger Button */}
-                        <button
-                            className="btn-faculty-showcase-nav"
-                            onClick={() => setShowFacultyModal(true)}
-                            title="Open Academic Project Architecture & Viva Overview"
-                        >
-                            <Award size={16} />
-                            <span>Faculty Showcase</span>
-                        </button>
-
                         <button
                             className="icon-btn theme-toggle-btn"
                             onClick={toggleTheme}
@@ -138,7 +124,7 @@ const Welcome = () => {
 
                         <Link to="/signup">
                             <Button variant="primary" size="sm" icon={UserPlus}>
-                                Citizen Portal
+                                Report Pothole
                             </Button>
                         </Link>
                     </div>
@@ -151,7 +137,7 @@ const Welcome = () => {
                     <div className="hero-text-content">
                         <div className="hero-badge-tag">
                             <Sparkles size={14} />
-                            <span>Major Project — Academic &amp; Municipal E-Governance Hub</span>
+                            <span>AI Computer Vision &amp; Road Pothole Triage Core</span>
                         </div>
 
                         <h1 className="hero-title">
@@ -160,7 +146,7 @@ const Welcome = () => {
                         </h1>
 
                         <p className="hero-desc">
-                            Next-generation urban infrastructure intelligence platform. Unifying computer vision defect detection, GIS spatial vulnerability weighting, real-time IoT sensor telemetry, and automated multi-departmental field dispatch to keep municipal roadways, bridges, and utilities resilient.
+                            AI-powered municipal road infrastructure monitoring and pothole triage system. Using computer vision to detect cavity spread, PostGIS spatial indexing for road vulnerability weighting, and automated field crew dispatch for rapid asphalt repairs.
                         </p>
 
                         <div className="hero-buttons">
@@ -169,59 +155,51 @@ const Welcome = () => {
                                 <ArrowRight size={18} />
                             </Link>
 
-                            <button
-                                className="btn-hero-viva"
-                                onClick={() => setShowFacultyModal(true)}
-                            >
-                                <Award size={18} />
-                                <span>Faculty Viva &amp; Architecture Hub</span>
-                            </button>
-
                             <Link to="/signup" className="btn-hero-secondary">
-                                <span>Report Defect</span>
+                                <span>Report Road Defect</span>
                                 <AlertTriangle size={18} />
                             </Link>
                         </div>
 
                         <div className="flex flex-wrap items-center gap-md text-xs text-muted">
                             <span className="flex items-center gap-xs">
-                                <CheckCircle2 size={14} className="text-success" /> PostGIS Spatial Indexing
+                                <CheckCircle2 size={14} className="text-success" /> OpenCV Pothole Geometry
                             </span>
                             <span className="flex items-center gap-xs">
-                                <CheckCircle2 size={14} className="text-success" /> AHP Dynamic Decision Matrix
+                                <CheckCircle2 size={14} className="text-success" /> PostGIS Road Spatial Indexing
                             </span>
                             <span className="flex items-center gap-xs">
-                                <CheckCircle2 size={14} className="text-success" /> Real-Time IoT Telemetry
+                                <CheckCircle2 size={14} className="text-success" /> AHP Dynamic Multi-Factor Triage
                             </span>
                         </div>
                     </div>
 
-                    {/* Interactive AI Telemetry Simulation Visualizer */}
+                    {/* Interactive AI Pothole Telemetry Scanner */}
                     <div className="visualizer-card">
                         <div className="viz-facility-tabs">
                             <button
-                                className={`viz-fac-btn ${activeFacility === 'roads' ? 'active' : ''}`}
-                                onClick={() => setActiveFacility('roads')}
+                                className={`viz-fac-btn ${activeDefect === 'pothole' ? 'active' : ''}`}
+                                onClick={() => setActiveDefect('pothole')}
                             >
-                                🛣️ Roads
+                                🕳️ Deep Pothole
                             </button>
                             <button
-                                className={`viz-fac-btn ${activeFacility === 'bridges' ? 'active' : ''}`}
-                                onClick={() => setActiveFacility('bridges')}
+                                className={`viz-fac-btn ${activeDefect === 'cracks' ? 'active' : ''}`}
+                                onClick={() => setActiveDefect('cracks')}
                             >
-                                🌉 Bridges
+                                ⚡ Asphalt Cracks
                             </button>
                             <button
-                                className={`viz-fac-btn ${activeFacility === 'water' ? 'active' : ''}`}
-                                onClick={() => setActiveFacility('water')}
+                                className={`viz-fac-btn ${activeDefect === 'waterlogging' ? 'active' : ''}`}
+                                onClick={() => setActiveDefect('waterlogging')}
                             >
-                                💧 Water
+                                🌊 Waterlogged
                             </button>
                             <button
-                                className={`viz-fac-btn ${activeFacility === 'lighting' ? 'active' : ''}`}
-                                onClick={() => setActiveFacility('lighting')}
+                                className={`viz-fac-btn ${activeDefect === 'surface' ? 'active' : ''}`}
+                                onClick={() => setActiveDefect('surface')}
                             >
-                                💡 Lighting
+                                🚧 Edge Rutting
                             </button>
                         </div>
 
@@ -236,7 +214,7 @@ const Welcome = () => {
                         <div className="viz-image-container">
                             <img
                                 src={currentViz.image}
-                                alt="Smart City Infrastructure AI Scan"
+                                alt="Road Defect AI Scan"
                                 className="viz-image"
                             />
                             <div className="viz-ai-box">
@@ -260,13 +238,13 @@ const Welcome = () => {
                                 </p>
                             </div>
                             <div className="viz-metric-item">
-                                <p className="viz-metric-label">Assigned Department</p>
+                                <p className="viz-metric-label">Assigned Road Squad</p>
                                 <p className="viz-metric-val">
                                     <span>{currentViz.dept}</span>
                                 </p>
                             </div>
                             <div className="viz-metric-item">
-                                <p className="viz-metric-label">Citizen Sentiment</p>
+                                <p className="viz-metric-label">Citizen Sentiment &amp; Speed</p>
                                 <p className="viz-metric-val">
                                     <span>{currentViz.sentiment}</span>
                                 </p>
@@ -274,7 +252,7 @@ const Welcome = () => {
                         </div>
 
                         <div className="viz-footer-strip">
-                            <span>Status: <strong>AI Triage &amp; Crew Dispatched</strong></span>
+                            <span>Status: <strong>AI Triage &amp; Road Crew Dispatched</strong></span>
                             <span className="text-muted">Target SLA: {currentViz.sla}</span>
                         </div>
                     </div>
@@ -286,20 +264,20 @@ const Welcome = () => {
                 <div className="container">
                     <div className="stats-strip-card">
                         <div className="stat-item">
-                            <span className="stat-number">14,850+</span>
-                            <span className="stat-label-text">Monitored Civic Assets</span>
+                            <span className="stat-number">14,850+ km</span>
+                            <span className="stat-label-text">Monitored Road Network</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-number">98.4%</span>
-                            <span className="stat-label-text">AI Defect Classification</span>
+                            <span className="stat-label-text">AI Pothole Detection Precision</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-number">&lt; 3.8 hrs</span>
-                            <span className="stat-label-text">Critical Hazard Response</span>
+                            <span className="stat-label-text">Critical Pothole Repair SLA</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-number">100%</span>
-                            <span className="stat-label-text">GIS Spatial Auditability</span>
+                            <span className="stat-label-text">PostGIS Spatial Auditability</span>
                         </div>
                     </div>
                 </div>
@@ -309,10 +287,10 @@ const Welcome = () => {
             <section className="pillars-section">
                 <div className="container">
                     <div className="section-header-center">
-                        <p className="section-eyebrow">Academic &amp; Municipal Excellence</p>
-                        <h2 className="section-heading">Architected for Resilient Smart City Operations</h2>
+                        <p className="section-eyebrow">End-to-End Pothole Engineering</p>
+                        <h2 className="section-heading">AI-Powered Road Condition Intelligence</h2>
                         <p className="section-subtext">
-                            From citizen mobile reporting to high-precision AI vision scoring, IoT telemetry streams, and field crew dispatch.
+                            From mobile image capture to neural cavity segmentation, spatial risk weighting, and verified road repairs.
                         </p>
                     </div>
 
@@ -321,9 +299,9 @@ const Welcome = () => {
                             <div className="pillar-icon-box">
                                 <Cpu size={24} />
                             </div>
-                            <h3 className="pillar-title">AI Computer Vision</h3>
+                            <h3 className="pillar-title">OpenCV Vision Engine</h3>
                             <p className="pillar-desc">
-                                Automated defect boundary and spread analysis using OpenCV neural models to instantly determine defect surface area and hazard index.
+                                Automated cavity surface area calculation, depth gradient contrast, and asphalt crack texture classification.
                             </p>
                         </div>
 
@@ -333,7 +311,7 @@ const Welcome = () => {
                             </div>
                             <h3 className="pillar-title">GIS Spatial Weighting</h3>
                             <p className="pillar-desc">
-                                Dynamic risk calculation with PostGIS R-Tree spatial indexing considering proximity to schools, hospitals, and transit arteries.
+                                Dynamic risk calculation with PostGIS R-Tree indexing factoring proximity to schools, hospitals, and heavy transit arteries.
                             </p>
                         </div>
 
@@ -343,7 +321,7 @@ const Welcome = () => {
                             </div>
                             <h3 className="pillar-title">AHP Dynamic Prioritization</h3>
                             <p className="pillar-desc">
-                                Multi-variable Analytic Hierarchy Process factoring in severity scores, citizen sentiment, traffic density, and repair SLAs.
+                                Analytic Hierarchy Process calculating composite severity scores (1-100) from vision, spatial, NLP sentiment, and crowd upvotes.
                             </p>
                         </div>
 
@@ -351,9 +329,9 @@ const Welcome = () => {
                             <div className="pillar-icon-box">
                                 <CheckCircle2 size={24} />
                             </div>
-                            <h3 className="pillar-title">Proof-of-Work Loop</h3>
+                            <h3 className="pillar-title">Dual Proof-of-Work Loop</h3>
                             <p className="pillar-desc">
-                                Field officers submit geo-tagged resolution proof images, and citizens verify or dispute closures with 100% transparency.
+                                Field road crews submit geo-tagged before/after repair photos; citizens verify or dispute closures with 100% transparency.
                             </p>
                         </div>
                     </div>
@@ -367,7 +345,7 @@ const Welcome = () => {
                         <p className="section-eyebrow">Role-Based Access Control</p>
                         <h2 className="section-heading">Dedicated Portals for Every Stakeholder</h2>
                         <p className="section-subtext">
-                            Choose your operational role to access dedicated dashboards, triage workflows, and management modules.
+                            Access dedicated command dashboards for municipal administration, field inspection teams, and citizens.
                         </p>
                     </div>
 
@@ -383,17 +361,17 @@ const Welcome = () => {
                                 </div>
                                 <h3 className="portal-name">Super Admin</h3>
                                 <p className="portal-desc">
-                                    City-wide oversight, AHP priority weight calibration, officer provisioning, and real-time municipal health analytics.
+                                    City-wide road network oversight, AHP priority weight calibration, road crew provisioning, and repair SLA analytics.
                                 </p>
                                 <ul className="portal-features-list">
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Multi-facility defect heatmaps
+                                        <CheckCircle2 size={15} /> City-wide pothole density heatmaps
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Departmental resource allocation
+                                        <CheckCircle2 size={15} /> Road crew resource allocation
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Officer roster &amp; performance audits
+                                        <CheckCircle2 size={15} /> Field officer roster &amp; repair audits
                                     </li>
                                 </ul>
                             </div>
@@ -413,19 +391,19 @@ const Welcome = () => {
                                     </div>
                                     <span className="portal-badge">Field Response</span>
                                 </div>
-                                <h3 className="portal-name">Field Officer</h3>
+                                <h3 className="portal-name">Road Field Officer</h3>
                                 <p className="portal-desc">
-                                    Queue triage, GPS routing navigation, live repair status updates (In-Progress, Resolved), and inspection photo upload.
+                                    Pothole triage queue, GPS turn-by-turn navigation, repair progression (In-Progress, Resolved), and inspection upload.
                                 </p>
                                 <ul className="portal-features-list">
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Assigned dispatch queue
+                                        <CheckCircle2 size={15} /> Assigned pothole repair queue
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Turn-by-turn map navigation
+                                        <CheckCircle2 size={15} /> Google Maps GPS navigation
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Citizen email outreach &amp; proof logs
+                                        <CheckCircle2 size={15} /> Citizen email communication &amp; proof logs
                                     </li>
                                 </ul>
                             </div>
@@ -447,17 +425,17 @@ const Welcome = () => {
                                 </div>
                                 <h3 className="portal-name">Citizen Reporter</h3>
                                 <p className="portal-desc">
-                                    Report potholes, broken streetlights, water bursts, and civic defects with image uploads, GPS auto-locating, and tracking.
+                                    Report road potholes, cracking, and hazards in seconds with photo uploads, GPS auto-locating, and live repair tracking.
                                 </p>
                                 <ul className="portal-features-list">
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Instant AI scan preview
+                                        <CheckCircle2 size={15} /> Instant AI pothole scan preview
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Community voting &amp; GIS map
+                                        <CheckCircle2 size={15} /> Community voting &amp; road GIS map
                                     </li>
                                     <li className="portal-feature-item">
-                                        <CheckCircle2 size={15} /> Real-time resolution notifications
+                                        <CheckCircle2 size={15} /> Real-time repair notifications
                                     </li>
                                 </ul>
                             </div>
@@ -478,16 +456,10 @@ const Welcome = () => {
                         Smart City Infrastructure and Management System
                     </p>
                     <p className="footer-copy">
-                        Powered by AI Computer Vision, Geo-Spatial GIS Analytics, Real-Time IoT Telemetry &amp; Municipal E-Governance.
+                        AI-Powered Municipal Road &amp; Pothole Defect Detection, Severity Triaging &amp; Dynamic Repair Dispatch.
                     </p>
                 </div>
             </footer>
-
-            {/* Faculty & Academic Viva Showcase Modal */}
-            <FacultyShowcaseModal
-                isOpen={showFacultyModal}
-                onClose={() => setShowFacultyModal(false)}
-            />
         </div>
     );
 };
