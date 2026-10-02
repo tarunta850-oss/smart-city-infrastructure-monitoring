@@ -1,6 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, FileText, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
+import {
+    Plus,
+    FileText,
+    Clock,
+    CheckCircle,
+    AlertTriangle,
+    Activity,
+    Layers,
+    Droplets,
+    Lightbulb,
+    Zap,
+    Trees,
+    Sparkles,
+    Shield,
+    Radio
+} from 'lucide-react';
 import api from '../../api';
 import Navbar from '../../components/shared/Navbar';
 import Button from '../../components/shared/Button';
@@ -11,11 +26,25 @@ import './Dashboard.css';
 
 const SEVERITY_ORDER = { critical: 4, high: 3, medium: 2, low: 1 };
 
+const FACILITY_OPTIONS = [
+    { id: '', label: '🌐 All Facilities', icon: Layers },
+    { id: 'road_issues', label: '🛣️ Roads & Pavements', icon: Layers },
+    { id: 'bridges', label: '🌉 Bridges & Flyovers', icon: Activity },
+    { id: 'water', label: '💧 Water & Drainage', icon: Droplets },
+    { id: 'streetlights', label: '💡 Smart Lighting', icon: Lightbulb },
+    { id: 'power', label: '⚡ Energy Grid', icon: Zap },
+    { id: 'parks', label: '🌳 Green Spaces', icon: Trees },
+];
+
 const StatCard = ({ icon: Icon, label, value, color, onClick, active }) => (
     <div
         className="stat-card"
         onClick={onClick}
-        style={{ cursor: onClick ? 'pointer' : undefined, outline: active ? `2px solid ${color}` : undefined, outlineOffset: 2 }}
+        style={{
+            cursor: onClick ? 'pointer' : undefined,
+            outline: active ? `2px solid ${color}` : undefined,
+            outlineOffset: 2
+        }}
     >
         <div className="stat-icon" style={{ background: color + '20', color }}>
             <Icon size={22} />
@@ -34,6 +63,7 @@ const CitizenDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedFacility, setSelectedFacility] = useState('');
     const [filters, setFilters] = useState({ status: '' });
     const [sortBy, setSortBy] = useState('newest');
 
@@ -83,7 +113,10 @@ const CitizenDashboard = () => {
                 r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (r.description || '').toLowerCase().includes(searchTerm.toLowerCase());
             const matchStatus = filters.status ? r.status === filters.status : true;
-            return matchSearch && matchStatus;
+            const matchFacility = selectedFacility
+                ? (r.category === selectedFacility || (selectedFacility === 'road_issues' && (!r.category || r.category === 'road_issues')))
+                : true;
+            return matchSearch && matchStatus && matchFacility;
         });
         return [...f].sort((a, b) => {
             if (sortBy === 'upvotes')  return (b.upvotes ?? 0) - (a.upvotes ?? 0);
@@ -92,18 +125,39 @@ const CitizenDashboard = () => {
             if (sortBy === 'severity') return (SEVERITY_ORDER[b.ai_severity_level] ?? 0) - (SEVERITY_ORDER[a.ai_severity_level] ?? 0);
             return 0;
         });
-    }, [reports, searchTerm, filters, sortBy]);
+    }, [reports, searchTerm, filters, selectedFacility, sortBy]);
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background citizen-dashboard-page">
             <Navbar />
 
             <main className="container py-lg">
+                {/* Live City Health Banner */}
+                <div className="city-health-banner mb-lg">
+                    <div className="health-left">
+                        <div className="pulse-indicator">
+                            <span className="pulse-dot"></span>
+                        </div>
+                        <div>
+                            <span className="health-title">MUNICIPAL INFRASTRUCTURE TELEMETRY</span>
+                            <p className="health-desc">City Infrastructure Health Index: <strong>94.8% Operational</strong> | AI Prioritization Active</p>
+                        </div>
+                    </div>
+                    <div className="health-right">
+                        <span className="telemetry-badge">
+                            <Radio size={13} />
+                            <span>PostGIS Geodetic Sync Active</span>
+                        </span>
+                    </div>
+                </div>
+
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-center mb-lg gap-md">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
                     <div>
-                        <h1 className="text-2xl mb-xs">Community Infrastructure Reports</h1>
-                        <p className="text-muted">Smart Civic Infrastructure Monitoring &amp; Live Repair Tracking</p>
+                        <h1 className="text-2xl mb-xs font-bold">Smart City Infrastructure Hub</h1>
+                        <p className="text-muted text-sm">
+                            Real-Time Multi-Facility Issue Reporting, AI Severity Triage &amp; Repair Tracking
+                        </p>
                     </div>
                     <Button variant="primary" size="lg" icon={Plus} onClick={() => navigate('/citizen/report/new')}>
                         Report Infrastructure Defect
@@ -126,6 +180,22 @@ const CitizenDashboard = () => {
                         onClick={() => setFilters(prev => ({ ...prev, status: prev.status === 'resolved' ? '' : 'resolved' }))} />
                 </div>
 
+                {/* Facility Category Filter Bar */}
+                <div className="facility-filter-strip mb-md">
+                    <span className="facility-filter-label">Facility Category:</span>
+                    <div className="facility-chips-row">
+                        {FACILITY_OPTIONS.map(opt => (
+                            <button
+                                key={opt.id}
+                                className={`facility-chip-btn ${selectedFacility === opt.id ? 'active' : ''}`}
+                                onClick={() => setSelectedFacility(opt.id)}
+                            >
+                                <span>{opt.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
                 {/* Filter bar */}
                 <FilterBar
                     onSearch={setSearchTerm}
@@ -140,7 +210,7 @@ const CitizenDashboard = () => {
                 )}
 
                 {loading ? (
-                    <p className="text-center text-muted py-lg">Loading reports...</p>
+                    <p className="text-center text-muted py-lg">Loading smart city infrastructure reports...</p>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
                         {filtered.length > 0 ? (
@@ -164,8 +234,8 @@ const CitizenDashboard = () => {
                                     <path d="M50 22l4 4 8-8" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 <div>
-                                    <p style={{ fontWeight: 500 }}>No reports match your search or filter.</p>
-                                    <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>Try clearing filters or adjusting your search.</p>
+                                    <p style={{ fontWeight: 500 }}>No infrastructure reports match your selected criteria.</p>
+                                    <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>Try changing the facility category or clearing filters.</p>
                                 </div>
                             </div>
                         )}

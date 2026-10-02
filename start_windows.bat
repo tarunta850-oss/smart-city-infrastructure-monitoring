@@ -1,7 +1,7 @@
 @echo off
-TITLE Smart Civic System - Launcher
+TITLE Smart City Infrastructure and Management System - Launcher
 echo ========================================================
-echo        Smart Civic Road Issue Reporting System         
+echo   Smart City Infrastructure and Management System        
 echo ========================================================
 echo.
 

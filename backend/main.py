@@ -7,7 +7,7 @@ from sqlalchemy import text
 from database import engine, Base
 from routers import auth, reports, analytics, votes, upload, modeling, notifications, user as user_router
 
-app = FastAPI(title="Smart Civic Infrastructure Monitoring & Repair Prioritization System API")
+app = FastAPI(title="Smart City Infrastructure and Management System API")
 
 # Create uploads directory if it doesn't exist
 UPLOAD_DIR = Path("uploads")

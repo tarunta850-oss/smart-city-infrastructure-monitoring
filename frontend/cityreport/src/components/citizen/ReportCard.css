@@ -1,7 +1,22 @@
+/* =========================================================
+   ReportCard Styles - Smart City IMS
+   ========================================================= */
+
 .report-card {
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.report-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(15, 118, 110, 0.15);
+    border-color: var(--primary);
 }
 
 .report-image-container {
@@ -9,23 +24,74 @@
     width: 100%;
     height: 200px;
     overflow: hidden;
+    background: #0f172a;
 }
 
 .report-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease;
 }
 
 .report-card:hover .report-image {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
-.report-category-badge {
+.report-image-badges {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.facility-floating-pill {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.severity-floating-pill {
+    backdrop-filter: blur(8px);
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.severity-pill-critical {
+    background: rgba(239, 68, 68, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.severity-pill-high {
+    background: rgba(245, 158, 11, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.severity-pill-medium {
+    background: rgba(59, 130, 246, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.severity-pill-low {
+    background: rgba(16, 185, 129, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .report-content {
@@ -37,6 +103,8 @@
 .report-title {
     margin-right: 0.5rem;
     line-height: 1.3;
+    font-weight: 700;
+    color: var(--text-main);
 }
 
 .border-t {
@@ -54,6 +122,9 @@
 .action-btn {
     padding-left: 0;
     padding-right: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 .action-btn:hover {

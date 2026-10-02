@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # ========================================================
-#        Smart Civic Road Issue Reporting System         
+#   Smart City Infrastructure and Management System       
 # ========================================================
 
 echo "========================================================"
-echo "       Smart Civic Road Issue Reporting System          "
+echo "   Smart City Infrastructure and Management System      "
 echo "========================================================"
 echo ""
 

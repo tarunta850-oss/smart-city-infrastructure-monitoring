@@ -1,8 +1,8 @@
 @echo off
-TITLE Smart Civic System - Docker Launcher
+TITLE Smart City System - Docker Launcher
 cd /d "%~dp0"
 
-echo Starting Smart Civic in Docker Desktop...
+echo Starting Smart City Infrastructure and Management System in Docker Desktop...
 docker compose up --detach
 if errorlevel 1 (
     echo.
@@ -12,6 +12,6 @@ if errorlevel 1 (
 )
 
 echo.
-echo Smart Civic is running at http://localhost:3005
+echo Smart City Infrastructure is running at http://localhost:3005
 start "" http://localhost:3005
 pause

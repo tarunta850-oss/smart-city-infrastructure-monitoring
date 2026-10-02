@@ -73,15 +73,15 @@ const Signup = () => {
                     <div className="logo-large">
                         <Shield size={32} />
                     </div>
-                    <span className="auth-badge-pill">CITIZEN REGISTRATION</span>
-                    <h1 className="auth-title">Smart Civic Infrastructure</h1>
-                    <p className="auth-subtitle">Monitoring &amp; Repair Prioritization System</p>
+                    <span className="auth-badge-pill">CITIZEN ENGAGEMENT NETWORK</span>
+                    <h1 className="auth-title">Smart City Infrastructure</h1>
+                    <p className="auth-subtitle">&amp; Management System</p>
                 </div>
 
                 <Card className="auth-card">
                     <div className="auth-card-title-box">
                         <h2 className="text-xl font-bold">Create Citizen Account</h2>
-                        <p className="text-xs text-muted">Join the smart civic network to report and track municipal road repairs</p>
+                        <p className="text-xs text-muted">Join the municipal network to report defects, track repairs, and improve urban infrastructure</p>
                     </div>
 
                     {error && (

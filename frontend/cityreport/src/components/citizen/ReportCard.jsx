@@ -1,10 +1,20 @@
-import { MapPin, ThumbsUp, Trash2 } from 'lucide-react';
+import { MapPin, ThumbsUp, Trash2, Zap, Droplets, Lightbulb, Layers, Activity } from 'lucide-react';
 import Card from '../shared/Card';
 import Badge from '../shared/Badge';
 import Button from '../shared/Button';
 import './ReportCard.css';
 import { getImageUrl } from '../../utils/image';
 import { useAuth } from '../../contexts/AuthContext';
+
+const FACILITY_MAP = {
+    road_issues: { label: '🛣️ Roads & Pavement', variant: 'neutral' },
+    roads: { label: '🛣️ Roads & Pavement', variant: 'neutral' },
+    bridges: { label: '🌉 Bridge Structure', variant: 'info' },
+    water: { label: '💧 Water Network', variant: 'info' },
+    streetlights: { label: '💡 Smart Lighting', variant: 'warning' },
+    power: { label: '⚡ Grid & Power', variant: 'warning' },
+    parks: { label: '🌳 Green Space', variant: 'success' },
+};
 
 const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
     const { user } = useAuth();
@@ -18,13 +28,14 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
         imageUrl,
         upvotes,
         createdAt,
-        created_at
+        created_at,
+        ai_severity_score,
+        ai_severity_level
     } = report;
 
     const upvoted = localStorage.getItem(`upvoted_${user?.id}_${id}`) === '1';
 
-    const displayCategory = category === 'road_issues' ? 'Road Issue' : category;
-
+    const facInfo = FACILITY_MAP[category] || { label: '🏛️ Civic Asset', variant: 'neutral' };
 
     const STATUS_LABELS = {
         pending: 'Pending',
@@ -47,6 +58,14 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
         }
     };
 
+    const getSeverityBadgeClass = (score) => {
+        if (!score) return '';
+        if (score >= 75) return 'severity-pill-critical';
+        if (score >= 50) return 'severity-pill-high';
+        if (score >= 25) return 'severity-pill-medium';
+        return 'severity-pill-low';
+    };
+
     return (
         <Card className="report-card" padding="none" onClick={() => onClick(id)}>
             <div className="report-image-container">
@@ -56,20 +75,28 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
                     className="report-image"
                     onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/400x200?text=Load+Error';
+                        e.target.src = 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=400&q=80';
                     }}
                 />
+                <div className="report-image-badges">
+                    <span className="facility-floating-pill">{facInfo.label}</span>
+                    {ai_severity_score && (
+                        <span className={`severity-floating-pill ${getSeverityBadgeClass(ai_severity_score)}`}>
+                            AI {ai_severity_score.toFixed(0)}/100
+                        </span>
+                    )}
+                </div>
             </div>
 
             <div className="report-content p-md">
-                <div className="flex justify-between items-start mb-sm">
+                <div className="flex justify-between items-start mb-sm gap-xs">
                     <h3 className="text-lg font-semibold report-title">{title}</h3>
                     <Badge variant={getStatusVariant(status)}>{STATUS_LABELS[status] || status}</Badge>
                 </div>
 
                 {location && (
                     <div className="flex items-center text-muted text-sm mb-md">
-                        <MapPin size={14} className="mr-1" />
+                        <MapPin size={14} className="mr-1 flex-shrink-0 text-danger" />
                         <span className="truncate">{location}</span>
                     </div>
                 )}
@@ -85,7 +112,7 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
                                 onUpvote(id);
                             }}
                         >
-                            <ThumbsUp size={20} style={{ color: upvoted ? 'var(--primary)' : undefined, fill: upvoted ? 'var(--primary)' : 'none' }} />
+                            <ThumbsUp size={18} style={{ color: upvoted ? 'var(--primary)' : undefined, fill: upvoted ? 'var(--primary)' : 'none' }} />
                             <span style={{ color: upvoted ? 'var(--primary)' : undefined }}>{upvotes}</span>
                         </Button>
 
@@ -100,12 +127,12 @@ const ReportCard = ({ report, onUpvote, onClick, onWithdraw, isOwner }) => {
                                 }}
                                 title="Withdraw Report"
                             >
-                                <Trash2 size={20} />
+                                <Trash2 size={18} />
                             </Button>
                         )}
                     </div>
 
-                    <span className="text-xs text-muted">
+                    <span className="text-xs text-muted font-medium">
                         {(createdAt || created_at) ? new Date(createdAt || created_at).toLocaleDateString() : 'N/A'}
                     </span>
                 </div>

@@ -57,14 +57,14 @@ const Login = () => {
                     <div className="logo-large">
                         <Shield size={32} />
                     </div>
-                    <span className="auth-badge-pill">MUNICIPAL ACCESS PORTAL</span>
-                    <h1 className="auth-title">Smart Civic Infrastructure</h1>
-                    <p className="auth-subtitle">Monitoring &amp; Repair Prioritization System</p>
+                    <span className="auth-badge-pill">MUNICIPAL COMMAND ACCESS PORTAL</span>
+                    <h1 className="auth-title">Smart City Infrastructure</h1>
+                    <p className="auth-subtitle">&amp; Management System</p>
                 </div>
 
                 <Card className="auth-card">
                     <div className="auth-card-title-box">
-                        <h2 className="text-xl font-bold">Sign In to Dashboard</h2>
+                        <h2 className="text-xl font-bold">Sign In to Command Portal</h2>
                         <p className="text-xs text-muted">Enter your registered credentials or select a demo role below</p>
                     </div>
 

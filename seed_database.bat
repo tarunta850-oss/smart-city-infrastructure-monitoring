@@ -1,7 +1,7 @@
 @echo off
-TITLE Smart Civic System - Database Seeder
+TITLE Smart City Infrastructure - Database Seeder
 echo ========================================================
-echo        Smart Civic Database & Accounts Seeder          
+echo   Smart City Infrastructure Database & Accounts Seeder   
 echo ========================================================
 echo.
 

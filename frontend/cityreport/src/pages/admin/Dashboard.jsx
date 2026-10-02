@@ -23,13 +23,17 @@ const AdminDashboard = () => {
     const monthlyData  = stats?.monthly_trends ?? [];
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background admin-dashboard-page">
             <Navbar />
 
             <main className="container py-lg">
-                <div className="dashboard-header">
-                    <h1 className="text-2xl mb-xs">Municipal Command &amp; Prioritization Center</h1>
-                    <p className="text-muted">Smart Civic Infrastructure Monitoring &amp; Multi-Factor Severity Analytics</p>
+                <div className="dashboard-header mb-lg">
+                    <div className="flex items-center gap-sm mb-xs">
+                        <span className="glow-pill primary">EXECUTIVE COMMAND HUB</span>
+                        <span className="text-xs text-muted">AHP Dynamic Multi-Factor Intelligence</span>
+                    </div>
+                    <h1 className="text-2xl mb-xs font-bold">Smart City Infrastructure Executive Command</h1>
+                    <p className="text-muted text-sm">Multi-Facility Municipal Oversight, Spatial Vulnerability Indexing &amp; Dispatch SLA Analytics</p>
                 </div>
 
                 <div className="admin-stats-grid">

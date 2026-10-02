@@ -259,12 +259,27 @@ const OfficerDashboard = () => {
       <Navbar />
 
       <main className="container py-lg">
+        {/* Live Operational Ticker */}
+        <div className="officer-ticker-bar mb-md">
+          <div className="ticker-left">
+            <span className="ticker-status-dot"></span>
+            <span className="ticker-title">FIELD OPERATIONS COMMAND CENTER</span>
+            <span className="ticker-sep">|</span>
+            <span className="ticker-meta">Active Mesh Nodes: 1,248</span>
+            <span className="ticker-sep">|</span>
+            <span className="ticker-meta">AI Priority Engine: Online</span>
+          </div>
+          <div className="ticker-right">
+            <span className="ticker-clock">GPS Geodetic Auto-Routing: Active</span>
+          </div>
+        </div>
+
         {/* Header */}
         <div className="dashboard-header mb-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
           <div>
-            <h1 className="text-2xl mb-xs font-bold">Field Response &amp; Repair Triage</h1>
+            <h1 className="text-2xl mb-xs font-bold">Field Response &amp; Repair Triage Command</h1>
             <p className="text-muted text-sm font-medium">
-              Smart Civic Infrastructure Monitoring &amp; Dynamic Task Dispatch
+              Smart City Infrastructure and Management System — Automated Severity Triage &amp; Dynamic Task Dispatch
             </p>
           </div>
           <Button

@@ -99,6 +99,41 @@
   font-weight: 600;
 }
 
+/* Faculty Viva Nav Button */
+.faculty-viva-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid var(--border-glow);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-left: 0.5rem;
+  box-shadow: 0 0 12px rgba(15, 118, 110, 0.15);
+}
+
+.faculty-viva-nav-btn:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, #06b6d4 100%);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(15, 118, 110, 0.4);
+}
+
+.viva-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+  animation: pulse 1.8s infinite;
+}
+
+
 .icon-btn {
   padding: 0.5rem;
   border-radius: var(--radius-full);

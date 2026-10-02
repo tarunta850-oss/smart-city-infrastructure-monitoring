@@ -12,7 +12,7 @@ API_URL = os.getenv(
 ).rstrip("/")
 
 st.set_page_config(
-    page_title="Smart Civic Infrastructure",
+    page_title="Smart City Infrastructure and Management System",
     page_icon="🏙️",
     layout="wide"
 )
@@ -127,7 +127,7 @@ if st.session_state.token and st.session_state.user:
 
     user = st.session_state.user
 
-    st.title("🏙️ Smart Civic Infrastructure Monitoring")
+    st.title("🏙️ Smart City Infrastructure and Management System")
 
     st.success("✅ Login successful!")
 
@@ -145,7 +145,7 @@ if st.session_state.token and st.session_state.user:
 
     st.divider()
 
-    st.subheader("Citizen Dashboard")
+    st.subheader("Citizen Command Hub")
 
     col1, col2, col3 = st.columns(3)
 
@@ -170,10 +170,10 @@ if st.session_state.token and st.session_state.user:
 
 else:
 
-    st.title("🏙️ Smart Civic Infrastructure Monitoring")
+    st.title("🏙️ Smart City Infrastructure & Management System")
 
     st.write(
-        "AI-powered civic issue reporting and management system"
+        "AI-Powered Municipal Defect Detection, Multi-Facility Triage & Dynamic Resource Dispatch"
     )
 
     st.divider()

@@ -22,7 +22,7 @@ package-lock.json
 
 # Virtual environments
 .venv/
-.venv-ml/
+.venv*/
 venv/
 
 # ML artifacts — weights and data are large/generated
