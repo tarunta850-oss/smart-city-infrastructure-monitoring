@@ -272,24 +272,38 @@ const AdminUsers = () => {
                         </span>
                       </td>
                       <td>
-                        <div className="flex gap-xs flex-wrap">
+                        <div className="flex gap-xs flex-wrap items-center">
                           {u.role === 'citizen' && (
                             <button
                               className="role-action-btn promote"
                               onClick={() => handleUpdateRole(u.id, 'officer')}
-                              title="Promote this citizen to verified Officer"
+                              title="Promote this citizen to verified Field Officer"
                             >
-                              <ArrowUpRight size={13} /> Promote to Officer
+                              <Shield size={13} /> Promote to Officer
                             </button>
                           )}
                           {u.role === 'officer' && (
-                            <button
-                              className="role-action-btn demote"
-                              onClick={() => handleUpdateRole(u.id, 'citizen')}
-                              title="Demote officer to standard Citizen"
-                            >
-                              <ArrowDownRight size={13} /> Demote to Citizen
-                            </button>
+                            <>
+                              <button
+                                className="role-action-btn promote-admin"
+                                onClick={() => handleUpdateRole(u.id, 'admin')}
+                                title="Promote this officer to Super Admin"
+                              >
+                                <ArrowUpRight size={13} /> Promote to Admin
+                              </button>
+                              <button
+                                className="role-action-btn demote"
+                                onClick={() => handleUpdateRole(u.id, 'citizen')}
+                                title="Demote officer to standard Citizen"
+                              >
+                                <ArrowDownRight size={13} /> Demote to Citizen
+                              </button>
+                            </>
+                          )}
+                          {u.role === 'admin' && (
+                            <span className="text-xs font-semibold text-danger" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(239, 68, 68, 0.1)' }}>
+                              <Shield size={12} /> Super Admin
+                            </span>
                           )}
                           {u.role !== 'admin' && (
                             <button

@@ -154,6 +154,16 @@
   background-color: #fef3c7;
 }
 
+.role-action-btn.promote-admin {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+  border: 1px solid #ddd6fe;
+}
+
+.role-action-btn.promote-admin:hover {
+  background-color: #ede9fe;
+}
+
 .role-action-btn.demote {
   color: #0f766e;
   background-color: #f0fdfa;

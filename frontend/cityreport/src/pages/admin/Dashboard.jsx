@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Users, FileText, CheckCircle2 } from 'lucide-react';
+import { TrendingUp, Users, FileText, CheckCircle2, Shield, UserPlus } from 'lucide-react';
 import Navbar from '../../components/shared/Navbar';
 import Card from '../../components/shared/Card';
+import Button from '../../components/shared/Button';
 import api from '../../api';
 import './AdminDashboard.css';
 
 const COLORS = ['#0F766E', '#F59E0B', '#EF4444', '#3B82F6', '#10B981'];
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -27,13 +30,24 @@ const AdminDashboard = () => {
             <Navbar />
 
             <main className="container py-lg">
-                <div className="dashboard-header mb-lg">
-                    <div className="flex items-center gap-sm mb-xs">
-                        <span className="glow-pill primary">EXECUTIVE COMMAND HUB</span>
-                        <span className="text-xs text-muted">AHP Dynamic Multi-Factor Intelligence</span>
+                <div className="dashboard-header mb-lg flex justify-between items-start flex-wrap gap-md">
+                    <div>
+                        <div className="flex items-center gap-sm mb-xs">
+                            <span className="glow-pill primary">EXECUTIVE COMMAND HUB</span>
+                            <span className="text-xs text-muted">AHP Dynamic Multi-Factor Intelligence</span>
+                        </div>
+                        <h1 className="text-2xl mb-xs font-bold">Smart City Infrastructure Executive Command</h1>
+                        <p className="text-muted text-sm">Multi-Facility Municipal Oversight, Spatial Vulnerability Indexing &amp; Dispatch SLA Analytics</p>
                     </div>
-                    <h1 className="text-2xl mb-xs font-bold">Smart City Infrastructure Executive Command</h1>
-                    <p className="text-muted text-sm">Multi-Facility Municipal Oversight, Spatial Vulnerability Indexing &amp; Dispatch SLA Analytics</p>
+                    <div className="flex gap-sm">
+                        <Button
+                            variant="primary"
+                            icon={UserPlus}
+                            onClick={() => navigate('/admin/users')}
+                        >
+                            Manage &amp; Promote Officers
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="admin-stats-grid">

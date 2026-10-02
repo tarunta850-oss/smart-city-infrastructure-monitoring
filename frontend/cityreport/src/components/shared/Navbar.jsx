@@ -85,7 +85,7 @@ const Navbar = () => {
                         <>
                             <Link to="/admin/dashboard" className="nav-link">Executive Hub</Link>
                             <Link to="/admin/reports" className="nav-link">Road Reports</Link>
-                            <Link to="/admin/users" className="nav-link">Field Crews &amp; Officers</Link>
+                            <Link to="/admin/users" className="nav-link">Officers &amp; Permissions</Link>
                             <Link to="/admin/analytics" className="nav-link">Road AI Analytics</Link>
                         </>
                     )}
